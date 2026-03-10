@@ -57,14 +57,50 @@ namespace WebApplication3.Models
         {
             SqlConnection con = new SqlConnection(_connectionString);
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "DELETE FROM Cars " + 
-                "WHERE PersonId = @id " + 
-                "DELETE FROM People " + 
-                "WHERE Id = @id " + 
+            cmd.CommandText = "DELETE FROM Cars " +
+                "WHERE PersonId = @id " +
+                "DELETE FROM People " +
+                "WHERE Id = @id " +
                 "DELETE FROM People WHERE Id = @id";
             cmd.Parameters.AddWithValue("@id", id);
             con.Open();
             cmd.ExecuteNonQuery();
+        }
+
+        public void UpdatePerson(int id, string firstName, string lastName, int age)
+        {
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "UPDATE People " +
+                "SET FirstName = @firstName, LastName = @lastName, Age = @age " +
+                "WHERE Id = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@firstName", firstName);
+            cmd.Parameters.AddWithValue("@lastName", lastName);
+            cmd.Parameters.AddWithValue("@age", age);
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        public Person GetPerson(int id)
+        {
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM People WHERE Id = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Person
+                {
+                    Id = (int)reader["Id"],
+                    FirstName = (string)reader["FirstName"],
+                    LastName = (string)reader["LastName"],
+                    Age = (int)reader["Age"]
+                };
+            }
+            return null;
         }
     }
 }
