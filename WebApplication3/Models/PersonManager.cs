@@ -52,5 +52,19 @@ namespace WebApplication3.Models
             }
             return people;
         }
+
+        public void DeletePerson(int id)
+        {
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "DELETE FROM Cars " + 
+                "WHERE PersonId = @id " + 
+                "DELETE FROM People " + 
+                "WHERE Id = @id " + 
+                "DELETE FROM People WHERE Id = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
     }
 }

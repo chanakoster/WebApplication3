@@ -31,5 +31,13 @@ namespace WebApplication3.Controllers
 
             return Redirect("/home");
         }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            PersonManager mgr = new PersonManager(Properties.Settings.Default.ConStr);
+            mgr.DeletePerson(id);
+            return Redirect("/home");
+        }
     }
 }

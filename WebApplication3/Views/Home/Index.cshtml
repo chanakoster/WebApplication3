@@ -18,25 +18,34 @@
             <a href="/home/addperson">Add Person</a>
         </button>
         <h1>People</h1>
-        <table class="table table-hover table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Age</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Person p in Model.People)
-                {
+        <form method="POST" action="/home/delete">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
                     <tr>
-                        <td>@p.FirstName</td>
-                        <td>@p.LastName</td>
-                        <td>@p.Age</td>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (Person p in Model.People)
+                    {
+                        <tr>
+                            <td>@p.FirstName</td>
+                            <td>@p.LastName</td>
+                            <td>@p.Age</td>
+                            <td>
+                                <input type="hidden" value="@p.Id" name="id" />
+                                <button class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
     </div>
 </body>
 </html>
